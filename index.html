@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Renato Trevisiol Montiel">
+    <meta name="description" content="lista de tareas hecha con JS puro">
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>To do</title>
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <h1 class="text-center mt-5 display-2">To do</h1>
+        
+        <div class="container px-5">
+            <hr>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100 mb-2" id="botonAgregar"><i class="fas fa-plus"></i> Agregar</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-danger w-100 mb-2" id="botonQuitar"><i class="fas fa-trash-alt"></i> Quitar</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-warning w-100 mb-2" id="botonEditar"><i class="fas fa-edit"></i> Editar</button>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-tabs mt-2 mb-2 d-flex justify-content-between" id="listaPestanias">
+
+            </ul>
+            <div class="mb-3">
+                <section class="row">
+                    <form class="col-md-12" id="formulario">
+                        <div>
+                            <input type="text" class="form-control text-center mt-3" id="tareaInput" placeholder="Tarea a agregar">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-3">Añadir</button>
+                        </div>
+                        <hr>
+                        <article class="row text-center" id="tareaAgregada">
+
+                        </article>
+                    </form>
+                </section>
+            </div>
+
+        </div>
+    </main>
+    <footer></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="./app.js"></script>
+    <script src="https://kit.fontawesome.com/4be1b3b300.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

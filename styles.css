@@ -1,0 +1,8 @@
+.tarea-container {
+    display: flex;
+    align-items: center;
+  }
+  .tarea-container input[type="checkbox"] {
+    margin-right: 10px; /* Espacio entre el checkbox y el texto */
+  }
+  
