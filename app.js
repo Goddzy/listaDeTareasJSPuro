@@ -52,7 +52,7 @@ let agregarTarea = (e) => {
             inputValue: pestanias[pestaniaSeleccionada][posicion],
             inputPlaceholder: 'Ingrese la nueva tarea',
             inputAttributes: {
-                maxlength: 40, // Limitar la longitud máxima del texto a 40 caracteres
+                maxlength: 30, // Limitar la longitud máxima del texto a 40 caracteres
             },
             showCancelButton: true,
             confirmButtonText: 'Guardar',
@@ -75,13 +75,18 @@ let agregarTarea = (e) => {
          tareaAgregada.innerHTML += `
          <div class="container">
          <div class="row tarea-container align-items-center">
-             <div class="col-8 col-md-9">
-                 <div class="descripcion-tarea">
-                     <input type="checkbox">
-                     <span class="display-">${tarea}</span>
+             <div class="col-12 col-md-3">
+                 <!-- Checkbox -->
+                 <input type="checkbox">
+             </div>
+             <div class="col-12 col-md-7">
+                 <!-- Texto -->
+                 <div class="descripcion-tarea mb-3 mt-1">
+                     <span class="fs-5">${tarea}</span>
                  </div>
              </div>
-             <div class="col-4 col-md-3">
+             <div class="col-12 col-md-2">
+                 <!-- Botones -->
                  <div class="d-grid gap-2">
                      <button class="btn btn-danger" onClick="borrarTarea(${posicion})">
                          <i class="fa-solid fa-trash"></i>
@@ -91,9 +96,10 @@ let agregarTarea = (e) => {
                      </button>
                  </div>
              </div>
-             <hr class="mt-1"></hr>
+             <hr class="col-12 mt-1">
          </div>
      </div>
+     
       `;
      });
  };
@@ -107,9 +113,8 @@ let agregarPestania = () => {
         input: 'text',
         inputPlaceholder: 'Ingrese el nombre de la pestaña',
         inputAttributes: {
-            maxlength: 15, // Limitar la longitud máxima del texto a 40 caracteres
+            maxlength: 15, // Limitar la longitud máxima del texto a 15 caracteres
             style: 'text-align: center;'
-           
         },
         showCancelButton: true,
         confirmButtonText: 'Agregar',
@@ -119,16 +124,35 @@ let agregarPestania = () => {
                 let nuevaPestania = document.createElement('li');
                 nuevaPestania.classList.add('nav-item', 'mx-2');
                 nuevaPestania.innerHTML = `
-                    <a class="nav-link mx active">${value}</a>
+                    <a class="nav-link">${value}</a>
                 `;
+                // Restaurar el estilo predeterminado de las pestañas
+                const pestaniasAntiguas = document.querySelectorAll('.nav-link');
+                pestaniasAntiguas.forEach((pestania) => {
+                    pestania.classList.remove('selected');
+                });
+
+                // Establecer la nueva pestaña como seleccionada
+                nuevaPestania.querySelector('.nav-link').classList.add('selected');
+                // Estilos para mostrar las pestañas en línea
+                nuevaPestania.style.display = 'inline-block';
+                nuevaPestania.style.marginRight = '10px'; // Espacio entre las pestañas
+
                 listaPestanias.appendChild(nuevaPestania);
                 pestanias[value] = [];
                 pestaniaSeleccionada = value;
-
+                
                 nuevaPestania.querySelector('.nav-link').addEventListener('click', () => {
+                    const pestanias = document.querySelectorAll('.nav-link');
+                    pestanias.forEach((pestania) => {
+                        pestania.classList.remove('selected');
+                    });
+                
+                    // Agregar la clase 'selected' solo a la pestaña seleccionada
                     pestaniaSeleccionada = value;
                     tareaAgregada.innerHTML = '';
                     cargarTareas();
+                    nuevaPestania.querySelector('.nav-link').classList.add('selected');
                 });
             } else {
                 Swal.showValidationMessage('Por favor, ingrese un valor válido para la pestaña');
@@ -137,8 +161,10 @@ let agregarPestania = () => {
     });
 };
 
+
+
 let quitarPestania=()=>{
-    console.log('desde quitar pestania')
+    console.log(pestanias)
 }
 
 let editarPestania=()=>{

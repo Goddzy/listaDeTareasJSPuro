@@ -1,8 +1,22 @@
-.tarea-container {
+/* Estilos para las pestañas */
+#listaPestanias {
     display: flex;
-    align-items: center;
-  }
-  .tarea-container input[type="checkbox"] {
-    margin-right: 10px; /* Espacio entre el checkbox y el texto */
-  }
-  
+    gap: 10px; /* Espacio entre las pestañas */
+}
+
+.nav-link {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    color: rgb(0, 0, 0) !important;
+}
+
+.nav-link:hover {
+    background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
+}
+
+.selected {
+    color: rgb(255, 0, 0) !important; /* Cambiar color del texto a blanco */
+}
