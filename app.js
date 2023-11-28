@@ -107,6 +107,18 @@ let agregarTarea = (e) => {
 
 
 //funciones para agregar/editar/borrar/cargar pestañas
+let verificarPestanias = ()=>{
+    if(Object.keys(pestanias).length> 0){
+        botonQuitarPestania.classList.remove('disabled')
+        botonEditarPestania.classList.remove('disabled')
+    }else{
+        botonQuitarPestania.classList.add('disabled')
+        botonEditarPestania.classList.add('disabled')
+    }
+}
+
+verificarPestanias()
+
 let agregarPestania = () => {
     Swal.fire({
         title: 'Agregar pestaña',
@@ -141,7 +153,8 @@ let agregarPestania = () => {
                 listaPestanias.appendChild(nuevaPestania);
                 pestanias[value] = [];
                 pestaniaSeleccionada = value;
-                
+                //habilitar los botones para editar y borrar pestañas
+                verificarPestanias()
                 nuevaPestania.querySelector('.nav-link').addEventListener('click', () => {
                     const pestanias = document.querySelectorAll('.nav-link');
                     pestanias.forEach((pestania) => {
@@ -164,7 +177,57 @@ let agregarPestania = () => {
 
 
 let quitarPestania=()=>{
-    console.log(pestanias)
+    //objeto que solo hice para poder mostrar las opciones
+    let pestaniasParaBorrar = []
+        for(let clave in pestanias){
+            pestaniasParaBorrar[clave] = clave
+        }    
+    Swal.fire({
+        title: 'Borrar pestaña',
+        input: 'select',
+        inputOptions: pestaniasParaBorrar,
+        inputPlaceholder: 'Borrar',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Borrar',
+        showLoaderOnConfirm: true,
+        preConfirm: (selectedOption) => {
+          if (!selectedOption) {
+            Swal.showValidationMessage('Debes seleccionar una opción');
+          }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let selectedValue = result.value;
+          delete pestanias[selectedValue]
+          //elimina las tareas de la pestaña
+          tareaAgregada.innerHTML= ''
+          //eliminar de manera visual la pestaña
+           listaPestanias.innerHTML = '';
+          //verifica si existen pestañas para "disablear" el botón
+          verificarPestanias()
+        // Vuelve a cargar las pestañas después de borrar
+        for (let pestania in pestanias) {
+            listaPestanias.innerHTML += `
+                <li class="nav-item mx-2">
+                    <a class="nav-link">${pestania}</a>
+                </li>
+            `;
+        }
+        }
+      });
+      listaPestanias.addEventListener('click', (event) => {
+        const selectedTab = event.target.closest('.nav-link');
+        if (selectedTab) {
+            const allTabs = document.querySelectorAll('.nav-link');
+            allTabs.forEach((tab) => {
+                tab.classList.remove('selected');
+            });
+            selectedTab.classList.add('selected');
+            pestaniaSeleccionada = selectedTab.textContent.trim(); // Actualiza la pestaña seleccionada
+        }
+        cargarTareas();
+    });
 }
 
 let editarPestania=()=>{
