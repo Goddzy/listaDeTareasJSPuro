@@ -71,6 +71,7 @@ let agregarTarea = (e) => {
 
  let cargarTareas = () => {
      tareaAgregada.innerHTML = '';
+     if(pestanias[pestaniaSeleccionada]){
      pestanias[pestaniaSeleccionada].forEach((tarea, posicion) => {
          tareaAgregada.innerHTML += `
          <div class="container">
@@ -101,7 +102,8 @@ let agregarTarea = (e) => {
      </div>
      
       `;
-     });
+     })}
+     else{tareaAgregada.innerHTML = '<p>Seleccione una pestaña para ver tareas.</p>';};
  };
  formulario.addEventListener('submit', agregarTarea);
 
@@ -226,13 +228,74 @@ let quitarPestania=()=>{
             selectedTab.classList.add('selected');
             pestaniaSeleccionada = selectedTab.textContent.trim(); // Actualiza la pestaña seleccionada
         }
-        cargarTareas();
     });
 }
 
-let editarPestania=()=>{
-    console.log('desde editar pestania')
-}
+let editarPestania = () => {
+    let pestaniasParaEditar = {};
+    for (let clave in pestanias) {
+        pestaniasParaEditar[clave] = clave;
+    }
+
+    Swal.fire({
+        title: 'Editar pestaña',
+        input: 'select',
+        inputOptions: pestaniasParaEditar,
+        inputPlaceholder: 'Seleccionar pestaña a editar',
+        showCancelButton: true,
+        confirmButtonText: 'Editar',
+        showLoaderOnConfirm: true,
+        preConfirm: (selectedOption) => {
+            if (!selectedOption) {
+                Swal.showValidationMessage('Debes seleccionar una opción');
+            } else {
+                return selectedOption;
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let selectedValue = result.value;
+
+            Swal.fire({
+                title: 'Editar nombre de pestaña',
+                input: 'text',
+                inputValue: selectedValue,
+                inputPlaceholder: 'Ingrese el nuevo nombre de la pestaña',
+                inputAttributes: {
+                    maxlength: 15, // Limitar la longitud máxima del texto a 15 caracteres
+                    style: 'text-align: center;'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Guardar',
+                showLoaderOnConfirm: true,
+                preConfirm: (value) => {
+                    if (value.trim() && value !== '') {
+                        pestanias[value] = pestanias[selectedValue];
+                        delete pestanias[selectedValue];
+
+                        // Actualizar visualmente las pestañas
+                        listaPestanias.innerHTML = '';
+                        for (let pestania in pestanias) {
+                            listaPestanias.innerHTML += `
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link">${pestania}</a>
+                                </li>
+                            `;
+                        }
+                        cargarTareas();
+                    } else {
+                        Swal.showValidationMessage('Por favor, ingrese un valor válido para la pestaña');
+                    }
+                }
+            });
+        }
+    });
+};
+
+
+
+botonEditarPestania.addEventListener('click', editarPestania);
+
 botonAgregarPestania.addEventListener('click', agregarPestania);
 botonQuitarPestania.addEventListener('click', quitarPestania);
 botonEditarPestania.addEventListener('click', editarPestania);
